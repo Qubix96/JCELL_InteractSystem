@@ -1,0 +1,206 @@
+---
+title: "JCELL RAPORT - interactome network"
+output: 
+ html_document
+ 
+---
+
+
+\
+
+### Below is a REPORT of analysis conducted via JCELL® tool. For more information about the performed operations, please read the JCELL manual.
+
+\
+
+
+
+## Clustering 
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/tree*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+## Cluter markers
+### Vulcano plots
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	for path in glob.glob("../bin/data/plots/cluster*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+		
+```
+</center>
+
+\
+
+### Set of interactions
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	import pandas as pd
+	
+	pd.read_excel("../bin/data/tables/cell_interaction.xlsx")
+   
+
+```
+
+</center>
+
+\
+
+## Interactome venn
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+        image = Image.open("../bin/data/plots/venn.png")
+        image.show()
+		print('')
+
+```
+
+</center>
+
+\
+
+## Interactome ligand / receptor pathways
+
+### Ligand pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_ligand*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+
+```
+
+</center>
+
+\
+
+### Receptor pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_recept*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+
+</center>
+
+\
+
+### Mutual pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_mutual*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+
+```
+
+</center>
+
+\
+
+## Interactome network
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/net*"):
+		Image.open(path).resize((1000,1000),Image.ANTIALIAS).show()
+		print('')
+
+```
+
+</center>
+
+\
+
+## Summary networks
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	import pandas as pd
+	
+	pd.read_excel("../bin/data/tables/network_results.xlsx")
+   
+
+```
+
+</center>

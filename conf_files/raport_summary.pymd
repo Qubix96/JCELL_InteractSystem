@@ -1,0 +1,318 @@
+---
+title: "JCELL RAPORT - gene relation / interactome network summary"
+output: 
+ html_document
+ 
+---
+
+
+\
+
+### Below is a REPORT of analysis conducted via JCELL® tool. For more information about the performed operations, please read the JCELL manual.
+
+\
+
+# PART 1 - interactome
+
+## Clustering 
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/tree*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+## Cluter markers
+### Vulcano plots
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	for path in glob.glob("../bin/data/plots/cluster*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+		
+```
+</center>
+
+\
+
+### Set of interactions
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	import pandas as pd
+	
+	pd.read_excel("../bin/data/tables/cell_interaction.xlsx")
+   
+
+```
+
+</center>
+
+\
+
+## Interactome venn
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+        image = Image.open("../bin/data/plots/venn.png")
+        image.show()
+    
+
+```
+
+</center>
+
+\
+
+## Interactome ligand / receptor pathways
+
+### Ligand pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_ligand*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+
+</center>
+
+\
+
+### Receptor pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_recept*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+
+</center>
+
+\
+
+### Mutual pathways
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/interactions_mutual*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+
+</center>
+
+\
+
+## Interactome network
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+    for path in glob.glob("../bin/data/plots/net*"):
+		Image.open(path).resize((1000,1000),Image.ANTIALIAS).show()
+		print('')
+		    
+
+```
+
+</center>
+
+\
+
+# PART2 - gene relation
+
+## Selected cell markers 
+
+\
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	import pandas as pd
+	
+	pd.read_excel("../bin/data/tables/cell_markers.xlsx")
+		
+```
+</center>
+
+##### *MCP (Mean Chenge Point) is a value of difference between studied group normalized expression values and mean expression of the rest groups
+
+\
+
+## Related to cell type (up / down regulated) markers
+### Volcano plots
+
+\
+
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/gen*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+### Related pathways
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/path_related_to_*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+# PART3 - summary
+
+\
+
+
+## Combine interactome / relation results
+
+
+### Mutual genes - venn plot
+
+\
+
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/venn_plot*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+### Mutual pathways
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/path_summary*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>

@@ -1,0 +1,82 @@
+---
+title: "JCELL RAPORT - gene relation"
+output: 
+ html_document
+
+---
+
+
+\
+
+### Below is a REPORT of analysis conducted via JCELL® tool. For more information about the performed operations, please read the JCELL manual.
+
+\
+
+
+
+## Selected cell markers 
+
+\
+
+
+<center>
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+
+
+	import pandas as pd
+	
+	pd.read_excel("../bin/data/tables/cell_markers.xlsx")
+		
+```
+</center>
+
+##### *MCP (Mean Chenge Point) is a value of difference between studied group normalized expression values and mean expression of the rest groups
+
+\
+
+## Related to cell type (up / down regulated) markers
+### Volcano plots
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/gen*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+    
+
+```
+</center>
+
+\
+
+### Related pathways
+
+\
+
+<center>
+
+```{python results="asis", echo=FALSE, message=FALSE, warning=FALSE}
+
+from PIL import Image
+import glob
+
+
+
+	for path in glob.glob("../bin/data/plots/path_related_to_*"):
+        image = Image.open(path)
+        image.show()
+		print('')
+
+```
+</center>

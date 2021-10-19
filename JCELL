@@ -1,0 +1,576 @@
+#!/bin/bash
+
+echo ''
+
+echo 'Welcome in the JCELL® single cell interactome tool created at Institute of Bioorganic Chemistry, Polish Academy of Sciences in Poznań'
+
+echo 'The JCELL® is a part of JBioSystem® project for solutions and tools in the life science data analysis'
+
+echo 'All information and references you can check in the file JCELL manual on my GitHub'
+
+echo 'Contact: jkubis@ibch.poznan.pl or jakub.kubis1996@gmail.com'
+
+echo ''
+echo ''
+
+function check_data {
+		echo ''
+		echo 'Put single cell data into --> ' $(pwd)/projects/$(date +'%d-%m-%Y')'_'$name/data 
+		echo 'If you done it, push ENTER'
+		read enter
+		
+		fast=$(pwd)/projects/$project/data/*
+	
+for i in $fast;
+do
+		r+=$i
+		path_data=$i
+done; 		
+		
+if      [[ $r == *".csv"* ]]
+then
+
+        echo 'Data complete'
+		
+else
+        echo 'Data not found'
+		echo 'Put data'
+		check_data
+fi
+
+	
+		
+}
+
+function install {
+
+echo ''
+echo 'Select installation enviroment'
+echo ''
+
+PS3="Select: "
+
+select opt in docker local back; do
+
+  case $opt in
+    docker)
+	
+	log_install=$(pwd)/setup/docker.log.out
+	
+    echo $(date) 'Docker build starting...'
+	docker build -t jseq -f Dockerfile . > $log_install 2>&1
+	id=$(docker images --format "{{.ID}}" jcell)
+	echo $id
+	echo id=$id > $(pwd)/setup/docker_id
+	docker run --privileged --rm -it -v $(pwd):/app/JCELL $id
+	start
+      ;;
+    local)
+     
+	log_install=$(pwd)/setup/install.log.out
+	
+	echo $(date) 'Conda installing...'
+	cd setup
+	wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh > $log_install 2>&1
+	bash Miniconda3-latest-Linux-x86_64.sh -y >> $log_install 2>&1
+	cd ..
+	echo $(date) 'Enviromental creating...'
+	conda create --name jcell-env python=3.8 -y >> $log_install 2>&1
+	conda activate jcell-env >> $log_install 2>&1
+	echo $(date) 'JDK installing...'
+	sudo apt -y install default-jdk >> $log_install 2>&1
+	echo $(date) 'Kedro installing...'
+	conda install -c conda-forge kedro >> $log_install 2>&1
+	cd bin
+	echo $(date) 'Requirements installing...'
+	kedro install >> $log_install 2>&1
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	sudo apt-get install python3-knitpy -y >> $log_install 2>&1
+	echo $(date) 'Installing finish'
+	conda deactivate
+	  
+      ;;
+    back)
+      start
+      ;;
+    *) 
+      echo "Invalid option $REPLY"
+      ;;
+  esac
+done
+
+
+
+}
+
+function analysis {
+
+echo ''
+echo 'Select type of single cell analysis'
+echo ''
+
+
+PS3="Select: "
+
+select opt in cell_interactome cell_markers gene_relation complete_analysis back; do
+
+  case $opt in
+    cell_interactome)
+     
+	INFASTP=$(pwd)/projects/*
+
+	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
+	cd $d
+	source config
+	name=$name
+	species=$species
+	project=$project
+	cd ..
+	cd ..
+	
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	
+	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
+	
+
+	cd bin
+	
+	conda activate jcell-env 
+	kedro run --pipeline na
+	
+	cd ..
+	cd $(pwd)/projects/$project/
+	
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	knitpy raport_interactome.pymd
+	conda deactivate
+	
+	rm -rf raport_interactome_files/
+
+	
+	cd ..
+	cd ..
+	
+	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+
+	rm $(pwd)/bin/conf/base/parameters.yml
+	rm $(pwd)/bin/conf/base/catalog.yml
+	rm $(pwd)/bin/data/data/*.csv
+	rm $(pwd)/bin/data/data/*.xlsx
+
+	
+	exec bash
+	
+	bash -i JCELL
+	 
+      ;;
+    cell_markers)
+      
+	INFASTP=$(pwd)/projects/*
+
+	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
+	cd $d
+	source config
+	name=$name
+	species=$species
+	project=$project
+	cd ..
+	cd ..
+	
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	
+	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
+
+	cd bin
+	
+	conda activate jcell-env 
+	kedro run --pipeline ms
+
+	
+	conda deactivate
+	
+	cd ..
+	
+	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+
+	rm $(pwd)/bin/conf/base/parameters.yml
+	rm $(pwd)/bin/conf/base/catalog.yml
+	rm $(pwd)/bin/data/data/*.csv
+	rm $(pwd)/bin/data/data/*.xlsx
+	
+	exec bash
+	
+	bash -i JCELL
+	 
+	  ;;
+    gene_relation)
+      
+	 INFASTP=$(pwd)/projects/*
+
+	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
+	cd $d
+	source config
+	name=$name
+	species=$species
+	project=$project
+	cd ..
+	cd ..
+	
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	
+	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
+
+	cd bin
+	
+	conda activate jcell-env 
+	kedro run --pipeline ms
+	kedro run --pipeline gr
+
+	cd ..
+	cd $(pwd)/projects/$project/
+	
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	knitpy raport_relation.pymd
+	conda deactivate
+	
+	rm -rf raport_relation_files/
+
+	
+	cd ..
+	cd ..
+	
+	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+
+	rm $(pwd)/bin/conf/base/parameters.yml
+	rm $(pwd)/bin/conf/base/catalog.yml
+	rm $(pwd)/bin/data/data/*.csv
+	rm $(pwd)/bin/data/data/*.xlsx
+	
+	exec bash
+	
+	bash -i JCELL
+	 
+	  ;;
+    complete_analysis)
+      
+	 INFASTP=$(pwd)/projects/*
+
+	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
+	cd $d
+	source config
+	name=$name
+	species=$species
+	project=$project
+	cd ..
+	cd ..
+	
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	
+	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
+	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
+	
+
+	cd bin
+	
+	conda activate jcell-env 
+	kedro run --pipeline na
+	kedro run --pipeline ms
+	kedro run --pipeline gr
+	kedro run --pipeline cb
+
+	cd ..
+	cd $(pwd)/projects/$project/
+	
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	knitpy raport_summary.pymd
+	conda deactivate
+	
+	rm -rf raport_summary_files/
+	
+	cd ..	
+	cd ..
+	
+	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+
+	rm $(pwd)/bin/conf/base/parameters.yml
+	rm $(pwd)/bin/conf/base/catalog.yml
+	rm $(pwd)/bin/data/data/*.csv
+	rm $(pwd)/bin/data/data/*.xlsx
+	
+	exec bash
+	
+	bash -i JCELL
+
+	 
+      ;;
+	  
+    back)
+	
+      project
+	  
+      ;;
+    *) 
+      echo "Invalid option $REPLY"
+      ;;
+  esac
+done
+
+}
+
+
+
+function enviroment {
+
+echo ''
+echo 'Select analysis enviroment'
+echo ''
+
+PS3="Select: "
+
+select opt in docker local back; do
+
+  case $opt in
+    docker)
+	
+	source $(pwd)/setup/docker_id
+	id=$id
+	docker run --privileged --rm -it -v $(pwd):/app/JCELL $id
+    project
+	
+      ;;
+    local)
+     
+	project
+	  
+      ;;
+    back)
+      start
+      ;;
+    *) 
+      echo "Invalid option $REPLY"
+      ;;
+  esac
+done
+
+
+
+}
+
+function input {	
+	echo 'Write species [mice | human | mix | custom]'
+	read species
+	species=$(echo $species | tr '[:upper:]' '[:lower:]')
+	
+	if [[ $species == 'mice' ]] || [[ $species == 'human' ]] || [[ $species == 'mix' ]] || [[ $species == 'custom' ]]
+	then
+		echo ''
+		echo 'Species correct'
+		echo ''
+		
+	else 
+		
+		input
+	fi
+	
+}
+	
+function gen {
+
+	echo 'Dou you want genes relation analysis? [Y/N]'
+	read decision
+	decision=$(echo $decision | tr '[:upper:]' '[:lower:]')	
+	
+	if [[ $decision == 'y' ]]
+	then
+		
+		echo 'Write gene or genes set for analysis'
+		echo 'Genes slould be written after coma like --> [KIT, PAX3, EDNRB]'
+		echo 'Genes:'
+		read gen_set
+		gen_set=$(echo $gen_set | tr '[:lower:]' '[:upper:]')	
+		
+	elif [[ $decision == 'n' ]]
+	then
+		gen_set=0
+	
+	else 
+	
+		gen
+fi
+
+}
+
+function project {
+
+echo ''
+echo 'Select operation'
+echo ''
+
+PS3="Select: "
+
+select opt in project_create analysis back; do
+
+  case $opt in
+    project_create)
+	
+	
+	echo 'Write project name'
+	read name
+	name=$(echo $name | tr '[:upper:]' '[:lower:]')	
+	project=$(date +'%d-%m-%Y')'_'$name
+	
+	input
+	
+	gen
+		
+	mkdir -p $(pwd)/projects/$project
+	mkdir -p $(pwd)/projects/$project/results
+	mkdir -p $(pwd)/projects/$project/data
+	echo name=$name > $(pwd)/projects/$project/config
+	echo species=$species >> $(pwd)/projects/$project/config	
+	echo project=$project >> $(pwd)/projects/$project/config
+	echo gen_set=$gen_set >> $(pwd)/projects/$project/config
+	
+	
+	check_data
+	
+	echo -e 'cell_data:\n  type: pandas.CSVDataSet\n  filepath: data/data/'$(basename $path_data) > $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'results_interaction:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/cell_interaction.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'results_relation:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/relation_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'final_results:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/network_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'dfr:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/cell_interaction.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'relation_results:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/relation_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'cell_markers:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/cell_markers.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	echo -e 'df_summary:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/combine_results.csv' >> $(pwd)/projects/$project/catalog.yml	
+	echo '' >> $(pwd)/projects/$project/catalog.yml
+	
+	if [[ $species == 'mice' ]]
+	then
+	
+	echo -e 'interaction_data:\n  type: pandas.CSVDataSet\n  filepath: data/database/mice.csv' >> $(pwd)/projects/$project/catalog.yml	
+	
+	elif [[ $species == 'human' ]]
+	then
+	
+	echo -e 'interaction_data:\n  type: pandas.CSVDataSet\n  filepath: data/database/human.csv' >> $(pwd)/projects/$project/catalog.yml
+	
+	elif [[ $species == 'mix' ]]
+	then
+
+	echo -e 'interaction_data:\n  type: pandas.CSVDataSet\n  filepath: data/database/mix.csv' >> $(pwd)/projects/$project/catalog.yml
+	
+	elif [[ $species == 'custom' ]]
+	then
+
+	echo -e 'interaction_data:\n  type: pandas.CSVDataSet\n  filepath: data/database/custom.csv' >> $(pwd)/projects/$project/catalog.yml
+fi	
+
+	cp $(pwd)/conf_files/parameters.yml $(pwd)/projects/$project/parameters.yml
+	echo -e '' >> $(pwd)/projects/$project/parameters.yml
+	echo -e '#Set of genes for relations analysis' >> $(pwd)/projects/$project/parameters.yml
+	echo -e 'gen_set: '$gen_set >> $(pwd)/projects/$project/parameters.yml
+	
+	
+	echo ''
+	echo 'Go to -->' $(pwd)/projects/$project/parameters.yml 'and set parameters for ML models'
+	echo 'Parameters depends only on your ideas. Warrning! More pameters demand longer time for analysis...'
+	echo ''
+	
+	project
+	
+	
+      ;;
+    analysis)
+     
+	analysis
+	
+
+	  
+      ;;
+    back)
+    
+	enviroment
+	
+      ;;
+    *) 
+      echo "Invalid option $REPLY"
+      ;;
+  esac
+done
+
+
+}
+
+
+
+function start {
+
+echo ''
+echo 'Run JCELL® operation'
+echo ''
+
+
+PS3="Select: "
+
+select opt in install run quit; do
+
+  case $opt in
+    install)
+     
+	 install
+	 
+      ;;
+    run)
+      
+	 enviroment
+	 
+      ;;
+    quit)
+      exec bash
+      ;;
+    *) 
+      echo "Invalid option $REPLY"
+      ;;
+  esac
+done
+
+}
+
+start

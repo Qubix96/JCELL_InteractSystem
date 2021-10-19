@@ -1,0 +1,37 @@
+
+
+#GLM parameters
+alpha: [0.01]
+lambda: [1e-5, 1e-6]
+
+
+#GBM parameters
+
+max_depth_opt: [2, 3, 4, 5, 6, 7]
+learn_rate_opt: [0.1, 0.2, 0.3]
+
+
+
+
+#Network
+icons: {
+    "Astrocytes": "../img/astrocyte.PNG",
+    "Oligodendrocytes": "../img/oligodendrocyte.PNG",
+    "Glutamatergic": "../img/neurons.PNG",
+    "Cholinergic": "../img/neurons.PNG",
+    "GABAergic": "../img/neurons.PNG",
+    "Dopaminergic" : "../img/neurons.PNG",
+    "OPC" : "../img/opc.PNG",
+    "Macrophages" : "../img/immuno.PNG",   
+    "Microglial" : "../img/immuno.PNG",
+    "Purkinje" : "../img/purkinje.PNG",
+    "Granule" : "../img/granule.PNG",
+    "Golgi" : "../img/golgi.PNG",
+    "GPCs" : "../img/gpc.PNG",
+    "NSCs" : "../img/nsc.PNG",
+    "NPCs" : "../img/npc.PNG",
+    "Pericytes" : "../img/pericyte.PNG",
+    "Endothelial" : "../img/endothelial.PNG",
+    "Tanacytes" : "../img/endothelial.PNG",
+    "Fibroblasts" : "../img/endothelial.PNG"
+    }

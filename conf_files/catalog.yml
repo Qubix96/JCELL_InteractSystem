@@ -1,0 +1,12 @@
+interaction_data:
+  type: pandas.CSVDataSet
+  filepath: data/database/human_lr_pair.txt
+  load_args:
+    sep: '\t'
+    engine: 'python'
+
+cell_data:
+  type: pandas.CSVDataSet
+  filepath: data/data/striatum.csv
+
+
