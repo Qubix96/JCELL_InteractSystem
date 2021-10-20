@@ -9,7 +9,7 @@ ENV LANG en_US.utf8
 RUN apt-get update
 RUN apt-get install -y sudo
 RUN sudo apt-get install -y git
-RUN git clone https://github.com/Qubix96/JSEQ_scRNAseq.git
+RUN git clone https://github.com/jkubis96/JCELL.git
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common
 RUN sudo apt-get update
 
