@@ -17,6 +17,8 @@ RUN sudo apt -y install default-jdk
 
 RUN sudo apt -y install python3.8
 RUN sudo apt -y install python3-pip
+RUN mkdir -p JCELL/setup
+RUN	mkdir -p JCELL/projects
 RUN cd JCELL/setup
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh
 RUN bash Miniconda3-latest-Linux-x86_64.sh

@@ -55,6 +55,9 @@ select opt in docker local back; do
   case $opt in
     docker)
 	
+	mkdir -p setup
+	mkdir -p projects
+	
 	log_install=$(pwd)/setup/docker.log.out
 	
     echo $(date) 'Docker build starting...'
@@ -66,6 +69,9 @@ select opt in docker local back; do
 	start
       ;;
     local)
+	
+	mkdir -p setup
+	mkdir -p projects
      
 	log_install=$(pwd)/setup/install.log.out
 	
