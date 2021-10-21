@@ -19,21 +19,19 @@ RUN sudo apt -y install python3.8
 RUN sudo apt -y install python3-pip
 RUN mkdir -p JCELL/setup
 RUN	mkdir -p JCELL/projects
-RUN cd JCELL/setup
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh
-RUN cd ..
-RUN conda create --name jcell-env python=3.8 -y 
-RUN conda activate jcell-env 
-RUN	conda install -c conda-forge kedro 
-RUN	cd bin
-RUN kedro install 
-RUN	export JUPYTER_ALLOW_INSECURE_WRITES=true
-RUN	sudo apt-get install python3-knitpy -y 
-RUN	conda deactivate
-
+ENV PATH="/root/miniconda3/bin:$PATH"
+ARG PATH="/root/miniconda3/bin:$PATH"
+RUN apt-get update
+RUN pip install kedro
 WORKDIR /app/JCELL
-CMD bash -i JCELL
+RUN	cd bin \
+	&& kedro install 
+ENV JUPYTER_ALLOW_INSECURE_WRITES=true
+RUN	sudo apt-get install python3-knitpy -y 
+
+
+
+CMD bash -i docker
 
 
 

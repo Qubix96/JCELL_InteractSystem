@@ -1,17 +1,8 @@
 #!/bin/bash
 
 echo ''
-
-echo 'Welcome in the JCELL® single cell interactome tool created at Institute of Bioorganic Chemistry, Polish Academy of Sciences in Poznań'
-
 echo 'The JCELL® is a part of JBioSystem® project for solutions and tools in the life science data analysis'
-
-echo 'All information and references you can check in the file JCELL manual on my GitHub'
-
-echo 'Contact: jkubis@ibch.poznan.pl or jakub.kubis1996@gmail.com'
-
-echo ''
-echo ''
+echo 'Docker container'
 
 function check_data {
 		echo ''
@@ -42,72 +33,10 @@ fi
 		
 }
 
-function install {
-
-echo ''
-echo 'Select installation enviroment'
-echo ''
-
-PS3="Select: "
-
-select opt in docker local back; do
-
-  case $opt in
-    docker)
-	
-	mkdir -p projects
-	
-	log_install=$(pwd)/setup/docker.log.out
-	
-    echo $(date) 'Docker build starting...'
-	docker build -t jcell -f Dockerfile . > $log_install 2>&1
-	id=$(docker images --format "{{.ID}}" jcell)
-	echo $id
-	echo id=$id > $(pwd)/setup/docker_id
-	docker run --privileged --rm -it -v $(pwd):/app/JCELL $id
-	
-	
-      ;;
-    local)
-	
-	mkdir -p projects
-     
-	log_install=$(pwd)/setup/install.log.out
-	
-	echo $(date) 'Conda installing...'
-	cd setup
-	wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh > $log_install 2>&1
-	bash Miniconda3-py38_4.10.3-Linux-x86_64.sh -y -b >> $log_install 2>&1
-	cd ..
-	echo $(date) 'Enviromental creating...'
-	conda create --name jcell-env python=3.8 -y >> $log_install 2>&1
-	conda activate jcell-env >> $log_install 2>&1
-	echo $(date) 'JDK installing...'
-	sudo apt -y install default-jdk >> $log_install 2>&1
-	echo $(date) 'Kedro installing...'
-	conda install -c conda-forge kedro -y >> $log_install 2>&1
-	cd bin
-	echo $(date) 'Requirements installing...'
-	kedro install >> $log_install 2>&1
-	export JUPYTER_ALLOW_INSECURE_WRITES=true
-	sudo apt-get install python3-knitpy -y >> $log_install 2>&1
-	echo $(date) 'Installing finish'
-	conda deactivate
-	project_fun
-	  
-      ;;
-    back)
-      start
-      ;;
-    *) 
-      echo "Invalid option $REPLY"
-      ;;
-  esac
-done
 
 
 
-}
+
 
 function analysis {
 
@@ -128,6 +57,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	echo ''
 	echo 'Select project:'
 	echo ''
+	
 	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
 	cd $d
 	source config
@@ -148,7 +78,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd bin
 	
-	conda activate jcell-env 
 	kedro run --pipeline na
 	
 	cd ..
@@ -156,7 +85,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	
 	export JUPYTER_ALLOW_INSECURE_WRITES=true
 	knitpy raport_interactome.pymd
-	conda deactivate
 	
 	rm -rf raport_interactome_files/
 
@@ -174,7 +102,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	rm $(pwd)/bin/data/data/*.xlsx
 
 	
-
+	
 	 
       ;;
     cell_markers)
@@ -184,6 +112,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	echo ''
 	echo 'Select project:'
 	echo ''
+	
 	select d in $INFASTP; do test -n "$d" && break; echo ">>> Invalid Selection"; done
 	cd $d
 	source config
@@ -203,11 +132,9 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd bin
 	
-	conda activate jcell-env 
 	kedro run --pipeline ms
 
 	
-	conda deactivate
 	
 	cd ..
 	
@@ -221,12 +148,11 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	rm $(pwd)/bin/data/data/*.xlsx
 	
 
-	 
 	  ;;
     gene_relation)
       
 	 INFASTP=$(pwd)/projects/*
-	
+
 	echo ''
 	echo 'Select project:'
 	echo ''
@@ -250,7 +176,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd bin
 	
-	conda activate jcell-env 
 	kedro run --pipeline ms
 	kedro run --pipeline gr
 
@@ -259,7 +184,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	
 	export JUPYTER_ALLOW_INSECURE_WRITES=true
 	knitpy raport_relation.pymd
-	conda deactivate
 	
 	rm -rf raport_relation_files/
 
@@ -277,6 +201,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	rm $(pwd)/bin/data/data/*.xlsx
 	
 
+	 
 	  ;;
     complete_analysis)
       
@@ -306,7 +231,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd bin
 	
-	conda activate jcell-env 
 	kedro run --pipeline na
 	kedro run --pipeline ms
 	kedro run --pipeline gr
@@ -317,7 +241,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	
 	export JUPYTER_ALLOW_INSECURE_WRITES=true
 	knitpy raport_summary.pymd
-	conda deactivate
 	
 	rm -rf raport_summary_files/
 	
@@ -339,7 +262,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	  
     back)
 	
-      project_fun
+      project_create
 	  
       ;;
     *) 
@@ -352,51 +275,8 @@ done
 
 
 
-function enviroment {
-
-echo ''
-echo 'Select analysis enviroment'
-echo ''
-
-PS3="Select: "
-
-select opt in docker local back; do
-
-  case $opt in
-    docker)
-	
-	source $(pwd)/setup/docker_id
-	id=$id
-	
-	if [[ $id == 0 ]] 
-	then
-		echo 'Docker container is undefined'
-		echo 'If you want run analysis in docker: install docker on your systeme -> run JCELL -> install -> docker'
-		enviroment
-	else
-	
-	docker run --privileged --rm -it -v $(pwd):/app/JCELL $id
-	
-    fi
-	
-      ;;
-    local)
-     
-	project_fun
-	  
-      ;;
-    back)
-      start
-      ;;
-    *) 
-      echo "Invalid option $REPLY"
-      ;;
-  esac
-done
 
 
-
-}
 
 function input {	
 	echo 'Write species [mice | human | mix | custom]'
@@ -450,7 +330,7 @@ echo ''
 
 PS3="Select: "
 
-select opt in project_create analysis back; do
+select opt in project_create analysis quit_docker; do
 
   case $opt in
     project_create)
@@ -543,9 +423,16 @@ fi
 
 	  
       ;;
-    back)
+    quit_docker)
     
-	enviroment
+	
+	 
+ 
+
+	
+	exit 
+	
+
 	
       ;;
     *) 
@@ -559,38 +446,5 @@ done
 
 
 
-function start {
+project_fun
 
-echo ''
-echo 'Run JCELL® operation'
-echo ''
-
-
-PS3="Select: "
-
-select opt in install run quit; do
-
-  case $opt in
-    install)
-     
-	 install
-	 
-      ;;
-    run)
-      
-	 enviroment
-	 
-      ;;
-    quit)
-	  exec bash
-      exec bash
-      ;;
-    *) 
-      echo "Invalid option $REPLY"
-      ;;
-  esac
-done
-
-}
-
-start
