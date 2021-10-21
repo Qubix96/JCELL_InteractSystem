@@ -67,16 +67,16 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
-	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
-	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/pipeline/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/pipeline/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/pipeline/data/data/
 	
 	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
 	
 
-	cd bin
+	cd pipeline
 	
 	kedro run --pipeline na
 	
@@ -92,14 +92,14 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
 
-	rm $(pwd)/bin/conf/base/parameters.yml
-	rm $(pwd)/bin/conf/base/catalog.yml
-	rm $(pwd)/bin/data/data/*.csv
-	rm $(pwd)/bin/data/data/*.xlsx
+	rm $(pwd)/pipeline/conf/base/parameters.yml
+	rm $(pwd)/pipeline/conf/base/catalog.yml
+	rm $(pwd)/pipeline/data/data/*.csv
+	rm $(pwd)/pipeline/data/data/*.xlsx
 
 	
 	
@@ -122,15 +122,15 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
-	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
-	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/pipeline/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/pipeline/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/pipeline/data/data/
 	
 	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
 
-	cd bin
+	cd pipeline
 	
 	kedro run --pipeline ms
 
@@ -138,14 +138,14 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	
 	cd ..
 	
-	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
 
-	rm $(pwd)/bin/conf/base/parameters.yml
-	rm $(pwd)/bin/conf/base/catalog.yml
-	rm $(pwd)/bin/data/data/*.csv
-	rm $(pwd)/bin/data/data/*.xlsx
+	rm $(pwd)/pipeline/conf/base/parameters.yml
+	rm $(pwd)/pipeline/conf/base/catalog.yml
+	rm $(pwd)/pipeline/data/data/*.csv
+	rm $(pwd)/pipeline/data/data/*.xlsx
 	
 
 	  ;;
@@ -166,15 +166,15 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
-	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
-	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/pipeline/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/pipeline/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/pipeline/data/data/
 	
 	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
 
-	cd bin
+	cd pipeline
 	
 	kedro run --pipeline ms
 	kedro run --pipeline gr
@@ -191,14 +191,14 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
 
-	rm $(pwd)/bin/conf/base/parameters.yml
-	rm $(pwd)/bin/conf/base/catalog.yml
-	rm $(pwd)/bin/data/data/*.csv
-	rm $(pwd)/bin/data/data/*.xlsx
+	rm $(pwd)/pipeline/conf/base/parameters.yml
+	rm $(pwd)/pipeline/conf/base/catalog.yml
+	rm $(pwd)/pipeline/data/data/*.csv
+	rm $(pwd)/pipeline/data/data/*.xlsx
 	
 
 	 
@@ -220,16 +220,16 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..
 	cd ..
 	
-	cp $(pwd)/projects/$project/parameters.yml $(pwd)/bin/conf/base/parameters.yml
-	cp $(pwd)/projects/$project/catalog.yml $(pwd)/bin/conf/base/catalog.yml
-	cp $(pwd)/projects/$project/data/*.csv $(pwd)/bin/data/data/
+	cp $(pwd)/projects/$project/parameters.yml $(pwd)/pipeline/conf/base/parameters.yml
+	cp $(pwd)/projects/$project/catalog.yml $(pwd)/pipeline/conf/base/catalog.yml
+	cp $(pwd)/projects/$project/data/*.csv $(pwd)/pipeline/data/data/
 	
 	cp $(pwd)/conf_files/raport_interactome.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_relation.pymd $(pwd)/projects/$project/
 	cp $(pwd)/conf_files/raport_summary.pymd $(pwd)/projects/$project/
 	
 
-	cd bin
+	cd pipeline
 	
 	kedro run --pipeline na
 	kedro run --pipeline ms
@@ -247,14 +247,14 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	cd ..	
 	cd ..
 	
-	mv $(pwd)/bin/data/plots/*.png $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.xlsx $(pwd)/projects/$project/results/
-	mv $(pwd)/bin/data/tables/*.csv $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
 
-	rm $(pwd)/bin/conf/base/parameters.yml
-	rm $(pwd)/bin/conf/base/catalog.yml
-	rm $(pwd)/bin/data/data/*.csv
-	rm $(pwd)/bin/data/data/*.xlsx
+	rm $(pwd)/pipeline/conf/base/parameters.yml
+	rm $(pwd)/pipeline/conf/base/catalog.yml
+	rm $(pwd)/pipeline/data/data/*.csv
+	rm $(pwd)/pipeline/data/data/*.xlsx
 	
 
 	 

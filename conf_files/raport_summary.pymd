@@ -27,7 +27,7 @@ import glob
 
 
 
-	for path in glob.glob("../bin/data/plots/tree*"):
+	for path in glob.glob("../pipeline/data/plots/tree*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -48,7 +48,7 @@ import glob
 ```{python echo=FALSE, message=FALSE, warning=FALSE}
 
 
-	for path in glob.glob("../bin/data/plots/cluster*"):
+	for path in glob.glob("../pipeline/data/plots/cluster*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -69,7 +69,7 @@ import glob
 
 	import pandas as pd
 	
-	pd.read_excel("../bin/data/tables/cell_interaction.xlsx")
+	pd.read_excel("../pipeline/data/tables/cell_interaction.xlsx")
    
 
 ```
@@ -87,7 +87,7 @@ import glob
 ```{python echo=FALSE, message=FALSE, warning=FALSE}
 
 
-        image = Image.open("../bin/data/plots/venn.png")
+        image = Image.open("../pipeline/data/plots/venn.png")
         image.show()
     
 
@@ -110,7 +110,7 @@ import glob
 
 
 
-    for path in glob.glob("../bin/data/plots/interactions_ligand*"):
+    for path in glob.glob("../pipeline/data/plots/interactions_ligand*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -133,7 +133,7 @@ import glob
 
 
 
-    for path in glob.glob("../bin/data/plots/interactions_recept*"):
+    for path in glob.glob("../pipeline/data/plots/interactions_recept*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -156,7 +156,7 @@ import glob
 
 
 
-    for path in glob.glob("../bin/data/plots/interactions_mutual*"):
+    for path in glob.glob("../pipeline/data/plots/interactions_mutual*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -179,7 +179,7 @@ import glob
 
 
 
-    for path in glob.glob("../bin/data/plots/net*"):
+    for path in glob.glob("../pipeline/data/plots/net*"):
 		Image.open(path).resize((1000,1000),Image.ANTIALIAS).show()
 		print('')
 		    
@@ -203,7 +203,7 @@ import glob
 
 	import pandas as pd
 	
-	pd.read_excel("../bin/data/tables/cell_markers.xlsx")
+	pd.read_excel("../pipeline/data/tables/cell_markers.xlsx")
 		
 ```
 </center>
@@ -227,7 +227,7 @@ import glob
 
 
 
-	for path in glob.glob("../bin/data/plots/gen*"):
+	for path in glob.glob("../pipeline/data/plots/gen*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -251,7 +251,7 @@ import glob
 
 
 
-	for path in glob.glob("../bin/data/plots/path_related_to_*"):
+	for path in glob.glob("../pipeline/data/plots/path_related_to_*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -284,7 +284,7 @@ import glob
 
 
 
-	for path in glob.glob("../bin/data/plots/venn_plot*"):
+	for path in glob.glob("../pipeline/data/plots/venn_plot*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -308,7 +308,7 @@ import glob
 
 
 
-	for path in glob.glob("../bin/data/plots/path_summary*"):
+	for path in glob.glob("../pipeline/data/plots/path_summary*"):
         image = Image.open(path)
         image.show()
 		print('')

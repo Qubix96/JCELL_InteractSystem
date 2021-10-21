@@ -19,12 +19,12 @@ RUN sudo apt -y install python3.8
 RUN sudo apt -y install python3-pip
 RUN mkdir -p JCELL/setup
 RUN	mkdir -p JCELL/projects
-ENV PATH="/root/miniconda3/bin:$PATH"
-ARG PATH="/root/miniconda3/bin:$PATH"
+ENV PATH="/root/miniconda3/pipeline:$PATH"
+ARG PATH="/root/miniconda3/pipeline:$PATH"
 RUN apt-get update
 RUN pip install kedro
 WORKDIR /app/JCELL
-RUN	cd bin \
+RUN	cd pipeline \
 	&& kedro install 
 ENV JUPYTER_ALLOW_INSECURE_WRITES=true
 RUN	sudo apt-get install python3-knitpy -y 
