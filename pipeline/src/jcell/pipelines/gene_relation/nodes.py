@@ -238,9 +238,8 @@ def plot(results: pd.DataFrame, parameters: Dict[str, Any]):
         count = count[0:20]
         seaborn.barplot(count['names'], count['n'])
         plt.xticks(rotation=90)
-        plt.tight_layout()
         plt.ylabel('Number of paths')
         plt.title('Pathways of genes relate to ' + str(gen))
-        plt.savefig('data/plots/path_related_to_'+ str(gen) + '.png')
+        plt.savefig('data/plots/path_related_to_'+ str(gen) + '.png',  bbox_inches='tight')
         plt.clf()
         plt.close()

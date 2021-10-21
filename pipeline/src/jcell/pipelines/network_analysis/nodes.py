@@ -512,7 +512,6 @@ def pathways_plot(analysis_clusters: pd.DataFrame, clusters, final_results):
             count = count[0:20]
             seaborn.barplot(count['names'], count['n'])
             plt.xticks(rotation=90)
-            plt.tight_layout()
             plt.ylabel('Number of paths')
             plt.title('Interactions ' + str(path) + ' cluster  ' + str(cluster))
             plt.savefig('data/plots/interactions_' + str(path) + '_'+ str(cluster) + '.png', bbox_inches="tight")
