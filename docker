@@ -249,10 +249,10 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd pipeline
 	
-	#kedro run --pipeline na
-	#kedro run --pipeline ms
-	#kedro run --pipeline gr
-	#kedro run --pipeline cb
+	kedro run --pipeline na
+	kedro run --pipeline ms
+	kedro run --pipeline gr
+	kedro run --pipeline cb
 
 	cd ..
 
