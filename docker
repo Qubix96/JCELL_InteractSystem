@@ -81,16 +81,7 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	kedro run --pipeline na
 	
 	cd ..
-	cd $(pwd)/projects/$project/
 	
-	export JUPYTER_ALLOW_INSECURE_WRITES=true
-	knitpy raport_interactome.pymd
-	
-	rm -rf raport_interactome_files/
-
-	
-	cd ..
-	cd ..
 	
 	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
 	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
@@ -101,7 +92,16 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	rm $(pwd)/pipeline/data/data/*.csv
 	rm $(pwd)/pipeline/data/data/*.xlsx
 
+	cd $(pwd)/projects/$project/
 	
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	knitpy raport_interactome.pymd
+	
+	rm -rf raport_interactome_files/
+
+	
+	cd ..
+	cd ..
 	
 	 
       ;;
@@ -188,6 +188,17 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	kedro run --pipeline gr
 
 	cd ..
+	
+	
+	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
+	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
+
+	rm $(pwd)/pipeline/conf/base/parameters.yml
+	rm $(pwd)/pipeline/conf/base/catalog.yml
+	rm $(pwd)/pipeline/data/data/*.csv
+	rm $(pwd)/pipeline/data/data/*.xlsx
+	
 	cd $(pwd)/projects/$project/
 	
 	export JUPYTER_ALLOW_INSECURE_WRITES=true
@@ -198,15 +209,6 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	
 	cd ..
 	cd ..
-	
-	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
-	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
-	mv $(pwd)/pipeline/data/tables/*.csv $(pwd)/projects/$project/results/
-
-	rm $(pwd)/pipeline/conf/base/parameters.yml
-	rm $(pwd)/pipeline/conf/base/catalog.yml
-	rm $(pwd)/pipeline/data/data/*.csv
-	rm $(pwd)/pipeline/data/data/*.xlsx
 	
 	fi
 	 
@@ -247,21 +249,13 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 
 	cd pipeline
 	
-	kedro run --pipeline na
-	kedro run --pipeline ms
-	kedro run --pipeline gr
-	kedro run --pipeline cb
+	#kedro run --pipeline na
+	#kedro run --pipeline ms
+	#kedro run --pipeline gr
+	#kedro run --pipeline cb
 
 	cd ..
-	cd $(pwd)/projects/$project/
-	
-	export JUPYTER_ALLOW_INSECURE_WRITES=true
-	knitpy raport_summary.pymd
-	
-	rm -rf raport_summary_files/
-	
-	cd ..	
-	cd ..
+
 	
 	mv $(pwd)/pipeline/data/plots/*.png $(pwd)/projects/$project/results/
 	mv $(pwd)/pipeline/data/tables/*.xlsx $(pwd)/projects/$project/results/
@@ -272,13 +266,23 @@ select opt in cell_interactome cell_markers gene_relation complete_analysis back
 	rm $(pwd)/pipeline/data/data/*.csv
 	rm $(pwd)/pipeline/data/data/*.xlsx
 	
+		cd $(pwd)/projects/$project/
+	
+	export JUPYTER_ALLOW_INSECURE_WRITES=true
+	knitpy raport_summary.pymd
+	
+	rm -rf raport_summary_files/
+	
+	cd ..	
+	cd ..
+	
 	fi
 	 
       ;;
 	  
     back)
 	
-      project_create
+      project_fun
 	  
       ;;
     *) 
@@ -375,7 +379,7 @@ select opt in project_create analysis quit_docker; do
 	echo -e 'cell_data:\n  type: pandas.CSVDataSet\n  filepath: data/data/'$(basename $path_data) > $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
-	echo -e 'results_interaction:\n  type: pandas.CSVDataSet\n  filepath: data/tables/cell_interaction.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo -e 'results_interaction:\n  type: pandas.CSVDataSet\n  filepath: data/tables/cell_interaction.csv' >> $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
 	echo -e 'results_relation:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/relation_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	
@@ -384,7 +388,7 @@ select opt in project_create analysis quit_docker; do
 	echo -e 'final_results:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/network_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
-	echo -e 'dfr:\n  type: pandas.CSVDataSet\n  filepath: data/tables/cell_interaction.xlsx' >> $(pwd)/projects/$project/catalog.yml	
+	echo -e 'dfr:\n  type: pandas.CSVDataSet\n  filepath: data/tables/cell_interaction.csv' >> $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
 	echo -e 'relation_results:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/relation_results.xlsx' >> $(pwd)/projects/$project/catalog.yml	

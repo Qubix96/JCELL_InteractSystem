@@ -27,7 +27,7 @@ import glob
 
 
 
-	for path in glob.glob("../pipeline/data/plots/tree*"):
+	for path in glob.glob("results/tree*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -48,17 +48,20 @@ import glob
 ```{python echo=FALSE, message=FALSE, warning=FALSE}
 
 
-	for path in glob.glob("../pipeline/data/plots/cluster*"):
+	for path in glob.glob("results/cluster*"):
         image = Image.open(path)
         image.show()
-		print('')
 		
 ```
 </center>
 
 \
 
-### Set of interactions
+# Cell interactions
+
+\
+
+### Interactome venn
 
 \
 
@@ -67,27 +70,7 @@ import glob
 ```{python echo=FALSE, message=FALSE, warning=FALSE}
 
 
-	import pandas as pd
-	
-	pd.read_excel("../pipeline/data/tables/cell_interaction.xlsx")
-   
-
-```
-
-</center>
-
-\
-
-## Interactome venn
-
-\
-
-<center>
-
-```{python echo=FALSE, message=FALSE, warning=FALSE}
-
-
-        image = Image.open("../pipeline/data/plots/venn.png")
+        image = Image.open("results/venn.png")
         image.show()
 		print('')
 
@@ -110,7 +93,7 @@ import glob
 
 
 
-    for path in glob.glob("../pipeline/data/plots/interactions_ligand*"):
+    for path in glob.glob("results/interactions_ligand*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -132,7 +115,7 @@ import glob
 
 
 
-    for path in glob.glob("../pipeline/data/plots/interactions_recept*"):
+    for path in glob.glob("results/interactions_recept*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -155,7 +138,7 @@ import glob
 
 
 
-    for path in glob.glob("../pipeline/data/plots/interactions_mutual*"):
+    for path in glob.glob("results/interactions_mutual*"):
         image = Image.open(path)
         image.show()
 		print('')
@@ -177,7 +160,7 @@ import glob
 
 
 
-    for path in glob.glob("../pipeline/data/plots/net*"):
+    for path in glob.glob("results/network_*.png"):
 		Image.open(path).resize((1000,1000),Image.ANTIALIAS).show()
 		print('')
 
@@ -198,7 +181,7 @@ import glob
 
 	import pandas as pd
 	
-	pd.read_excel("../pipeline/data/tables/network_results.xlsx")
+	pd.read_excel("results/network_results.xlsx")
    
 
 ```

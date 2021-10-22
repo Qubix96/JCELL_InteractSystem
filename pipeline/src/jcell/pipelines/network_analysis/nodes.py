@@ -793,7 +793,7 @@ def network(df: pd.DataFrame, parameters: Dict[str, Any], cell_data: pd.DataFram
                 a = plt.axes([xa - icon_center, ya - icon_center, icon_size, icon_size])
                 a.imshow(G.nodes[n]["image"])
                 a.axis("off")
-            plt.title('Interactome network - ' + gen)
+            plt.suptitle('Interactome network - ' + gen)
             plt.savefig('data/plots/network_' + gen + '.png', bbox_inches="tight")
             plt.clf()
             plt.close()
