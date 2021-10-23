@@ -31,7 +31,7 @@ def venn(results_interaction: pd.DataFrame, results_relation: pd.DataFrame, para
     
     for gen in gen_set:
         venn3(subsets = (set(results_interaction['Ligand']), set(results_interaction['Receptor']), set(results_relation['relation'][results_relation['gen'] == gen])) , set_labels = ('Ligand genes', 'Receptor genes', 'Relation genes'), alpha = 0.5)
-        plt.title('Combine interaction / relation genes to' + str(gen))
+        plt.title('Combine interaction / relation genes to ' + str(gen))
         plt.savefig('data/plots/venn_plot_combine_'+ str(gen) + '.png', bbox_inches="tight")
         plt.clf()
         plt.close()
