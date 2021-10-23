@@ -20,6 +20,8 @@ icons: {
     "Glutamatergic": "../img/neurons.PNG",
     "Cholinergic": "../img/neurons.PNG",
     "GABAergic": "../img/neurons.PNG",
+    "Glycinerigc": "../img/neurons.PNG",
+    "Nitrynergic": "../img/neurons.PNG",
     "Dopaminergic" : "../img/neurons.PNG",
     "OPC" : "../img/opc.PNG",
     "Macrophages" : "../img/immuno.PNG",   

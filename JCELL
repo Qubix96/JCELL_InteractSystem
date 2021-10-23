@@ -517,7 +517,7 @@ select opt in project_create analysis back; do
 	echo -e 'cell_markers:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/cell_markers.xlsx' >> $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
-	echo -e 'df_summary:\n  type: pandas.ExcelDataSet\n  filepath: data/tables/combine_results.csv' >> $(pwd)/projects/$project/catalog.yml	
+	echo -e 'df_summary:\n  type: pandas.CSVDataSet\n  filepath: data/tables/combine_results.csv' >> $(pwd)/projects/$project/catalog.yml	
 	echo '' >> $(pwd)/projects/$project/catalog.yml
 	
 	if [[ $species == 'mice' ]]
